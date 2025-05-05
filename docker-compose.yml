@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE:-America/Sao_Paulo}
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - n8n-network
+
+  waha:
+    image: devlikeapro/waha
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - WHATSAPP_GROUP_LIMIT=256
+      - WHATSAPP_WEBHOOK_URL={URL_DE_PRODUCAO_DO_NODE_WAHA_TRIGGER}
+      - WHATSAPP_DEFAULT_ENGINE=noweb
+      - WHATSAPP_HOOK_EVENTS=message
+    volumes:
+      - waha_data:/app/store
+    networks:
+      - n8n-network
+
+volumes:
+  n8n_data:
+    name: n8n_data
+  waha_data:
+    name: waha_data
+
+networks:
+  n8n-network:
+    name: n8n-network 
