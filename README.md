@@ -33,7 +33,7 @@ Este projeto configura um ambiente de automação do WhatsApp usando n8n (plataf
 
 ### 1. Clone e Inicialização
 ```bash
-git clone [URL_DO_REPOSITÓRIO]
+git clone https://github.com/linusmasters/whatsapp-n8n.git
 cd whatsapp_automation
 docker-compose up -d
 ```
@@ -74,10 +74,20 @@ docker-compose up -d
 
 ### 4. Configuração do n8n
 1. No n8n:
-   - Crie um novo fluxo de trabalho
-   - Adicione um nó "Webhook"
-   - Configure o webhook para receber eventos do WAHA
-   - Crie suas automações
+   - Selecione o Waha trigger criado anteriormente, e clique em "Test Step"
+   ![test step](images/n8n/n8n_test_step.png)
+   - Mande uma mensagem para você mesmo, para ativar o webhook
+   ![test message](images/n8n/n8n_test_message.png)
+   - Adicione um node de Edit fields, para mapear apenas os campos necessários (session, from, body, id) e clique em "Test Step"
+   ![test message](images/n8n/n8n_edit_fields.png)
+   - Adicione um node do waha (send seen), clique em credentials, e insira o endereço do docker do container do waha, também adicione a session, chat id e message id. Também remova o campo participant e clique em "Test Step"
+   ![test message](images/n8n/n8n_waha_credentials.png)
+   ![test message](images/n8n/n8n_waha_seen_config.png)
+   - Adicione um node do waha (send text), insira a session e chat id, e no campo text coloque a mensagem que deseja enviar e clique em "Test Step"
+   ![test message](images/n8n/n8n_waha_sendtextg.png)
+   - O resultado será parecido com este
+   ![resultado](images/n8n/n8n_resultado.png)
+   
 
 ## Comandos Úteis
 
